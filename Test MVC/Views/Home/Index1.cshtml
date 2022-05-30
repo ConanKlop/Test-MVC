@@ -1,10 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "Index1";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://kit.fontawesome.com/b4077a95f0.js" crossorigin="anonymous"></script>
+<head>
+    <script src="https://kit.fontawesome.com/b4077a95f0.js" crossorigin="anonymous"></script>
+</head>
+
 @model Test_MVC.Models.ThongTinMe
 
 @{
@@ -25,7 +26,8 @@
     fieldset {
         /*display: flow;*/
         display: flow-root;
-        margin-top: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
         margin-inline-start: 5px;
         margin-inline-end: 5px;
         padding-block-start: 0.35em;
@@ -38,6 +40,13 @@
         border-color: rgb(192, 192, 192);
         border-image: initial;
         border-radius: 10px;
+    }
+
+    label.control-label.required::after {
+        content: " *";
+        color: red;
+        font-weight: bold;
+        font-size: 130%;
     }
 
     legend {
@@ -73,355 +82,540 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Quản Lý Mẻ</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ThongTinMeID)
+<div class="form-horizontal">
+    <h4>Quản Lý Mẻ</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ThongTinMeID)
 
 
-        <!-- Thông tin mẻ-->
-        <fieldset class="border p-2">
-            <legend data-toggle="collapse" data-target="#thongtinme" class="float-none w-auto p-2 text-toggle " aria-expanded="true">
-                Thông tin mẻ
-                <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
-                <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
-            </legend>
-            <div id="thongtinme" class="collapse in">
+    <!-- Thông tin mẻ-->
+    <fieldset class="border p-2">
+        <legend data-toggle="collapse" data-target="#thongtinme" class="float-none w-auto p-2 text-toggle " aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
+            Thông tin mẻ
 
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.idMe, "ID của mẻ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-2">
-                            @Html.EditorFor(model => model.idMe, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.idMe, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.CreateBy, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.CreateBy, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.CreateBy, "", new { @class = "text-danger" })
-                        </div>
+        </legend>
+        <div id="thongtinme" class="collapse in">
+
+            <div class="form-group row">
+                <div class="col">
+                    @*@Html.LabelFor(model => model.idMe, "ID của mẻ", htmlAttributes: new { @class = "control-label col-sm-1 required", style = "width: 12.499999995%" })*@
+                    @Html.LabelFor(model => model.idMe, "ID của mẻ", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.idMe, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.idMe, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <a class="btn btn-default text-toggle minitotoggle" data-toggle="collapse" data-target="#demo" aria-expanded="false">
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.CreateBy, "Người tạo", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.CreateBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CreateBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.CreateDate, "Thời gian tạo mẻ", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            @*<a class="btn btn-default text-toggle minitotoggle" data-toggle="collapse" data-target="#demo" aria-expanded="false">
                     <span class="text-collapsed">More info  <i class="fa-solid fa-circle-chevron-down"> </i></span>
-
                     <span class="text-expanded">Less info  <i class="fa-solid fa-circle-chevron-up"> </i></span>
-
                 </a>
 
                 <div id="demo" class="form-group row collapse">
-                    <div class="col">
-                        @Html.LabelFor(model => model.CreateDate, "Thời gian tạo mẻ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.UpdateBy, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.UpdateBy, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.UpdateBy, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.UpdateDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.UpdateDate, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.UpdateDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
 
-            </div>
-        </fieldset>
-        <!-- Bể gom -->
-        <fieldset class="border p-2">
-            <legend data-toggle="collapse" data-target="#begom" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
-                Bể gom
-                <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
-                <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
-            </legend>
-            <div id="begom" class="collapse in">
-
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.begomPh, "Độ pH", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-1">
-                            @Html.EditorFor(model => model.begomPh, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.begomPh, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.begomTimeBom, "Thời gian bơm", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.begomTimeBom, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.begomTimeBom, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                <a class="btn btn-default text-toggle minitotoggle" data-toggle="collapse" data-target="#begomhoahoc" aria-expanded="false">
-                    <span class="text-collapsed">Chỉ số hoá học  <i class="fa-solid fa-circle-chevron-down"></i></span>
-                    <span class="text-expanded">Ẩn chỉ số hoá học  <i class="fa-solid fa-circle-chevron-up"></i></span>
-                </a>
-
-                <div id="begomhoahoc" class="form-group collapse">
-                    <div class="form-group row">
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocCod, "COD", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocCod, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocCod, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocTss, "TSS", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocTss, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocTss, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocNt, "Nt", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocNt, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocNt, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocP, "P", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocP, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocP, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                    </div>
+                </div>*@
 
 
-                </div>
-            </div>
-        </fieldset>
-        <!-- Cyclo Trộn -->
-        <fieldset class="border p-2">
-            <legend data-toggle="collapse" data-target="#cyclotron" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
-                Cyclo trộn
-                <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
-                <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
-            </legend>
-            <div id="cyclotron" class="collapse in">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.cyclotronTimeXaday, "Thời gian xả đáy", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.UpdateBy, "Người cập nhật", htmlAttributes: new { @class = "control-label col-md-2 required" })
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.cyclotronTimeXaday, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.cyclotronTimeXaday, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.UpdateBy, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.UpdateBy, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-        </fieldset>
-
-        <!-- Bể lắng -->
-        <fieldset class="border p-2">
-            <legend data-toggle="collapse" data-target="#belang" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
-                Bể lắng
-                <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
-                <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
-            </legend>
-            <div id="belang" class="collapse in">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.belangTimeXaday, "Thời gian xả đáy", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col">
+                    @Html.LabelFor(model => model.UpdateDate, "Ngày cập nhật", htmlAttributes: new { @class = "control-label col-md-2 required" })
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.belangTimeXaday, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.belangTimeXaday, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.UpdateDate, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.UpdateDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-        </fieldset>
 
-        <!-- Bơm hoá chất -->
-        <fieldset class="border p-2">
-            <legend data-toggle="collapse" data-target="#bomhoachat" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
-                Bơm hoá chất
-                <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
-                <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
-            </legend>
-            <div id="bomhoachat" class="collapse in">
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.bomhoachatNongdo, "Nồng độ hoá chất", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.bomhoachatNongdo, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.bomhoachatNongdo, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.bomhoachatTimeBom, "Thời gian bơm", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.bomhoachatTimeBom, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.bomhoachatTimeBom, "", new { @class = "text-danger" })
-                        </div>
+        </div>
+    </fieldset>
+
+    <!-- Bể gom -->
+    <fieldset class="border p-2">
+        <legend data-toggle="collapse" data-target="#begom" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
+            Bể gom
+
+        </legend>
+        <div id="begom" class="collapse in">
+
+
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.begomTimeBom, "Thời gian bơm", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.begomTimeBom, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.begomTimeBom, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-        </fieldset>
-        <!-- Bể điều hoà -->
-        <fieldset class="border p-2">
-            <legend data-toggle="collapse" data-target="#bedieuhoa" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
-                Bể điều hoà
-                <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
-                <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
-            </legend>
-            <div id="bedieuhoa" class="collapse in">
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.bedieuhoaDo, "DO", htmlAttributes: new { @class = "control-label col-sm-1" })
-                        <div class="col-sm-1">
-                            @Html.EditorFor(model => model.bomhoachatNongdo, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.bomhoachatNongdo, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.bedieuhoaTimeBom, "Thời gian bơm", htmlAttributes: new { @class = "control-label col-sm-2" })
-                        <div class="col-sm-3">
-                            @Html.EditorFor(model => model.bedieuhoaTimeBom, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.bedieuhoaTimeBom, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.bedieuhoaTimeThoikhi, "Thời gian thổi khí", htmlAttributes: new { @class = "control-label col-sm-2" })
-                        <div class="col-sm-3">
-                            @Html.EditorFor(model => model.bedieuhoaTimeThoikhi, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.bedieuhoaTimeThoikhi, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </fieldset>
-        <!-- Bể SBR1 -->
-        <fieldset class="border p-2">
-            <legend data-toggle="collapse" data-target="#besbr1" class="float-none w-auto p-2 text-toggle " aria-expanded="true">
-                Bể SBR1
-                <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
-                <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
-            </legend>
-            <div id="besbr1" class="collapse in">
-
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.besbr1Ph, "pH", htmlAttributes: new { @class = "control-label col-sm-1" })
-                        <div class="col-sm-1">
-                            @Html.EditorFor(model => model.besbr1Ph, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.besbr1Ph, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.besbr1Do, "DO", htmlAttributes: new { @class = "control-label col-sm-1" })
-                        <div class="col-sm-1">
-                            @Html.EditorFor(model => model.besbr1Do, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.besbr1Do, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.besbr1Vl, "VL", htmlAttributes: new { @class = "control-label col-sm-1" })
-                        <div class="col-sm-1">
-                            @Html.EditorFor(model => model.besbr1Vl, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.besbr1Vl, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
-                <a class="btn btn-default text-toggle minitotoggle" data-toggle="collapse" data-target="#besbrhoahoc" aria-expanded="false">
-                    <span class="text-collapsed">Chỉ số hoá học  <i class="fa-solid fa-circle-chevron-down"></i></span>
-                    <span class="text-expanded">Ẩn chỉ số hoá học  <i class="fa-solid fa-circle-chevron-up"></i></span>
-                </a>
-
-                <div id="besbrhoahoc" class="form-group collapse">
-                    <div class="form-group row">
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocCod, "COD", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocCod, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocCod, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocTss, "TSS", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocTss, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocTss, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocNt, "Nt", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocNt, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocNt, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col">
-                            @Html.LabelFor(model => model.begomHoahocP, "P", htmlAttributes: new { @class = "control-label col-sm-1" })
-                            <div class="col-sm-1">
-                                @Html.EditorFor(model => model.begomHoahocP, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.begomHoahocP, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.UpdateBy, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.UpdateBy, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.UpdateBy, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.UpdateDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-sm-4">
-                            @Html.EditorFor(model => model.UpdateDate, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.UpdateDate, "", new { @class = "text-danger" })
-                        </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.begomPh, "Độ pH", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomPh, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.begomPh, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
             </div>
-        </fieldset>
-        <!-- Máy ép bùn -->
-        <fieldset class="border p-2">
-            <legend class="float-none w-auto p-2">Máy Ép Bùn</legend>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.MayEpBun, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-sm-4">
-                    @Html.EditorFor(model => model.MayEpBun, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MayEpBun, "", new { @class = "text-danger" })
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocCod, "COD", htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocCod, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocCod, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" style="background-color:aqua" />
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocTss, "TSS", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocTss, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocTss, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocNt, "Nt", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocNt, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocNt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocP, "P", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocP, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocP, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
             </div>
         </div>
+    </fieldset>
+    <!-- Cyclo Trộn -->
+    <fieldset class="border p-2">
+        <legend data-toggle="false" data-target="#cyclotron" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            @*<span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>*@
+            <span class="text-expanded"> <i class="fa-solid fa-circle"></i></span>
+            Cyclo trộn
+
+        </legend>
+        <div id="cyclotron" class="collapse in">
+            <div class="form-group">
+                @Html.LabelFor(model => model.cyclotronTimeXaday, "Thời gian xả đáy", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-sm-4">
+                    @Html.EditorFor(model => model.cyclotronTimeXaday, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.cyclotronTimeXaday, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Bể lắng -->
+    <fieldset class="border p-2">
+        <legend data-toggle="false" data-target="#belang" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            @*<span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>*@
+            <span class="text-expanded"> <i class="fa-solid fa-circle"></i></span>
+            Bể lắng
+
+        </legend>
+        <div id="belang" class="collapse in">
+            <div class="form-group">
+                @Html.LabelFor(model => model.belangTimeXaday, "Thời gian xả đáy", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-sm-4">
+                    @Html.EditorFor(model => model.belangTimeXaday, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.belangTimeXaday, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Bơm hoá chất -->
+    <fieldset class="border p-2">
+        <legend data-toggle="false" data-target="#bomhoachat" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            @*<span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>*@
+            <span class="text-expanded"> <i class="fa-solid fa-circle"></i></span>
+            Bơm hoá chất
+
+        </legend>
+        <div id="bomhoachat" class="collapse in">
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.bomhoachatNongdo, "Nồng độ hoá chất", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.bomhoachatNongdo, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.bomhoachatNongdo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.bomhoachatTimeBom, "Thời gian bơm", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.bomhoachatTimeBom, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.bomhoachatTimeBom, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Bể điều hoà -->
+    <fieldset class="border p-2">
+        <legend data-toggle="collapse" data-target="#bedieuhoa" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
+            @*<span class="text-expanded"> <i class="fa-solid fa-circle"></i></span>*@
+            Bể điều hoà
+
+        </legend>
+        <div id="bedieuhoa" class="collapse in">
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.bedieuhoaTimeBom, "Thời gian bơm", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.bedieuhoaTimeBom, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.bedieuhoaTimeBom, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.bedieuhoaTimeThoikhi, "Thời gian thổi khí", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.bedieuhoaTimeThoikhi, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.bedieuhoaTimeThoikhi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.bedieuhoaDo, "DO", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.bomhoachatNongdo, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.bomhoachatNongdo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+    </fieldset>
+
+    <!-- Bể SBR1 -->
+    <fieldset class="border p-2">
+        <legend data-toggle="collapse" data-target="#besbr1" class="float-none w-auto p-2 text-toggle " aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
+            Bể SBR1
+
+        </legend>
+        <div id="besbr1" class="collapse in">
+
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1Ph, "pH", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr1Ph, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1Ph, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1Do, "DO", htmlAttributes: new { @class = "control-label col-sm-1 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr1Do, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1Do, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1Vl, "VL", htmlAttributes: new { @class = "control-label col-sm-1 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr1Vl, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1Vl, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1HoahocCod, "COD", htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr1HoahocCod, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.besbr1HoahocCod, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1HoahocTss, "TSS", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr1HoahocTss, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.besbr1HoahocTss, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1HoahocNt, "Nt", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr1HoahocNt, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.besbr1HoahocNt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1HoahocP, "P", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr1HoahocP, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.besbr1HoahocP, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1TimeLamday, "Thời gian làm đầy", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr1TimeLamday, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1TimeLamday, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1TimeXuly, "Thời gian xử lí", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr1TimeXuly, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1TimeXuly, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1TimeLang, "Thời gian lắng", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr1TimeLang, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1TimeLang, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1TimeXa, "Thời gian xả", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr1TimeXa, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1TimeXa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1TimeCho, "Thời gian chờ", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr1TimeCho, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1TimeCho, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr1TimeBombun, "Thời gian bơm bùn", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr1TimeBombun, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr1TimeBombun, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Bể sbr2 -->
+    <fieldset class="border p-2">
+        <legend data-toggle="collapse" data-target="#besbr2" class="float-none w-auto p-2 text-toggle " aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            <span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>
+            Bể sbr2
+
+        </legend>
+        <div id="besbr2" class="collapse in">
+                     <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2Ph, "pH", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr2Ph, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2Ph, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2Do, "DO", htmlAttributes: new { @class = "control-label col-sm-1 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr2Do, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2Do, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2Vl, "VL", htmlAttributes: new { @class = "control-label col-sm-1 required" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.besbr2Vl, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2Vl, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocCod, "COD", htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocCod, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocCod, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocTss, "TSS", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocTss, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocTss, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocNt, "Nt", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocNt, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocNt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.begomHoahocP, "P", htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-1">
+                        @Html.EditorFor(model => model.begomHoahocP, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.begomHoahocP, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2TimeLamday, "Thời gian làm đầy", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr2TimeLamday, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2TimeLamday, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2TimeXuly, "Thời gian xử lí", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr2TimeXuly, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2TimeXuly, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2TimeLang, "Thời gian lắng", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr2TimeLang, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2TimeLang, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2TimeXa, "Thời gian xả", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr2TimeXa, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2TimeXa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2TimeCho, "Thời gian chờ", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr2TimeCho, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2TimeCho, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.besbr2TimeBombun, "Thời gian bơm bùn", htmlAttributes: new { @class = "control-label col-sm-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.besbr2TimeBombun, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.besbr2TimeBombun, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Máy ép bùn -->
+    <fieldset class="border p-2">
+        <legend data-toggle="false" data-target="#bomhoachat" class="float-none w-auto p-2 text-toggle" aria-expanded="true">
+            <span class="text-collapsed"> <i class="fa-solid fa-circle-chevron-down"></i></span>
+            @*<span class="text-expanded"> <i class="fa-solid fa-circle-chevron-up"></i></span>*@
+            <span class="text-expanded"> <i class="fa-solid fa-circle"></i></span>
+            Máy ép bùn
+
+        </legend>
+        <div id="bomhoachat" class="collapse in">
+            <div class="form-group row">
+                <div class="col">
+                    @Html.LabelFor(model => model.mayepbunTimeHoatdong, "Thời gian hoạt động", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.mayepbunTimeHoatdong, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.mayepbunTimeHoatdong, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    @Html.LabelFor(model => model.mayepbunKhoiluongbunkho, "Khối lượng bùn khô", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.mayepbunKhoiluongbunkho, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.mayepbunKhoiluongbunkho, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" style="background-color:aqua" />
+        </div>
     </div>
+</div>
 
 }
 
